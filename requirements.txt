@@ -1,0 +1,6 @@
+rti.connext
+psycopg2-binary>=2.9
+fastapi>=0.110
+uvicorn>=0.29
+websockets>=12.0
+aiohttp>=3.9
