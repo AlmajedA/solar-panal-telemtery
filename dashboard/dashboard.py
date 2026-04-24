@@ -197,7 +197,8 @@ if panels:
 
 # ── Panel History ──────────────────────────────────────────────────────────
 
-st.subheader("Panel History")
+site_label = f" — {selected_site}" if selected_site != "All" else ""
+st.subheader(f"Panel History{site_label}")
 
 panel_ids = [p["panel_id"] for p in panels] if panels else []
 
@@ -276,8 +277,11 @@ st.divider()
 
 # ── Faults ─────────────────────────────────────────────────────────────────
 
-st.subheader("Recent Faults")
-faults = fetch("/api/faults", {"limit": 50}) or []
+st.subheader(f"Recent Faults{site_label}")
+fault_params: dict = {"limit": 50}
+if selected_site != "All":
+    fault_params["site_id"] = selected_site
+faults = fetch("/api/faults", fault_params) or []
 
 if faults:
     df_faults = pd.DataFrame(faults)
@@ -304,5 +308,5 @@ else:
 
 # ── Auto-refresh ───────────────────────────────────────────────────────────
 
-# time.sleep(refresh_interval)
-# st.experimental_rerun()
+time.sleep(refresh_interval)
+st.experimental_rerun()
