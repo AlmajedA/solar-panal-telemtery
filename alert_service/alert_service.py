@@ -110,7 +110,7 @@ class AlertService:
 
         # ── 2. SUBSCRIPTION_MATCHED — catches clean Ctrl+C shutdowns ──────
         # When participant.close() is called, an RTPS BYE is sent.
-        # The reader sees the writer count drop via SUBSCRIPTION_MATCHED
+        # The reader sees the writer count drop via SUBSCRIPTION_MATCHEDactive
         # before the liveliness lease has time to expire.
         try:
             sm = self._hb_reader.subscription_matched_status
@@ -143,7 +143,7 @@ class AlertService:
 
         # ── 3. LIVELINESS_CHANGED — catches crashes / kill -9 ─────────────
         # This fires only after the writer's 5-second liveliness lease
-        # expires with no assertion. It won't fire for clean shutdowns
+        # expires with no assertion. It won't fire for clea n shutdowns
         # because RTPS BYE already notified us via SUBSCRIPTION_MATCHED.
         try:
             lc = self._hb_reader.liveliness_changed_status
